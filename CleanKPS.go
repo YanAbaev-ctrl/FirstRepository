@@ -9,57 +9,52 @@ import (
 )
 
 func main() {
-	fmt.Println("Проект для Каты.")
-	fmt.Println("Введите выражение. Можно использовать как арабские цифры, так и римские.")
+	reader := bufio.NewReader(os.Stdin)
 
-	forenter := bufio.NewReader(os.Stdin)
-	enter, panic := forenter.ReadString('\n')
+	fmt.Println("Простой консольный калькулятор")
+	fmt.Println("Введите выражение (например, 2 + 3):")
+
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(input)
+
+	parts := strings.Split(input, " ")
+	if len(parts) != 3 {
+		fmt.Println("Неверный формат ввода. Пример: 2 + 3")
+		return
+	}
+
+	first_num, panic := strconv.ParseFloat(parts[0], 64)
 	if panic != nil {
-		fmt.Println("Ошибка чтения: ", panic)
+		fmt.Println("Ошибка преобразования первого числа:", panic)
 		return
 	}
 
-	enter = strings.TrimSpace(enter)
-	partsofoper := strings.Split(enter, " ")
-	if len(partsofoper) != 3 {
-		fmt.Println("Вы неверно ввели предложение, правильным будет ввод вида 2 + 3!")
-		return
-	}
-
-	first_num, panic := strconv.ParseFloat(partsofoper[0], 64)
+	second_num, panic := strconv.ParseFloat(parts[2], 64)
 	if panic != nil {
-		fmt.Println("Преобразование первого числа не удалось!", panic)
+		fmt.Println("Ошибка преобразования второго числа:", panic)
 		return
 	}
 
-	second_num, panic := strconv.ParseFloat(partsofoper[0], 64)
-	if panic != nil {
-		fmt.Println("Преобразование второго числа не удалось!", panic)
-		return
-	}
+	math_oper := parts[1]
 
-	oper := partsofoper[1]
-	var res float64
-
-	switch oper {
+	var answer float64
+	switch math_oper {
 	case "+":
-		res = first_num + second_num
+		answer = first_num + second_num
 	case "-":
-		res = first_num - second_num
+		answer = first_num - second_num
 	case "*":
-		res = first_num * second_num
+		answer = first_num * second_num
 	case "/":
 		if second_num == 0 {
-			fmt.Println("Деление на ноль нельзя провернуть!")
+			fmt.Println("Деление на ноль невозможно")
 			return
 		}
-		res = first_num / second_num
+		answer = first_num / second_num
 	default:
-		fmt.Println("Вы ввели что то не понятное!")
+		fmt.Println("Неподдерживаемый оператор:", math_oper)
 		return
-
 	}
 
-	fmt.Println("Ответ: %.2f\n", res)
-
+	fmt.Printf("Результат: %.2f\n", answer)
 }
