@@ -14,10 +14,10 @@ func main() {
 	fmt.Println("Простой консольный калькулятор")
 	fmt.Println("Введите выражение (например, 2 + 3):")
 
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
+	receiving_values, _ := reader.ReadString('\n')
+	receiving_values = strings.TrimSpace(receiving_values)
 
-	parts := strings.Split(input, " ")
+	parts := strings.Split(receiving_values, " ")
 	if len(parts) != 3 {
 		fmt.Println("Неверный формат ввода. Пример: 2 + 3")
 		return
