@@ -29,13 +29,13 @@ func main() {
 			continue
 		}
 
-		first_num, err := strconv.ParseFloat(parts[0], 64)
+		first_num, err := strconv.Atoi(parts[0])
 		if err != nil {
 			fmt.Println("Первое число не было преобразовано:", err)
 			continue
 		}
 
-		second_num, err := strconv.ParseFloat(parts[2], 64)
+		second_num, err := strconv.Atoi(parts[2])
 		if err != nil {
 			fmt.Println("Второе число не было преобразовано:", err)
 			continue
@@ -43,7 +43,7 @@ func main() {
 
 		math_oper := parts[1]
 
-		var answer float64
+		var answer int
 		switch math_oper {
 		case "+":
 			answer = first_num + second_num
@@ -62,6 +62,6 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("Ответ: %.2f\n", answer)
+		fmt.Printf("Ответ: %.d\n", answer)
 	}
 }
