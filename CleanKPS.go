@@ -8,7 +8,44 @@ import (
 	"strings"
 )
 
+var rim_arab = map[string]int{
+	"I": 1, "IV": 4, "V": 5, "IX": 9,
+	"X": 10, "XL": 40, "L": 50, "XC": 90,
+	"C": 100, "CD": 400, "D": 500, "CM": 900,
+	"M": 1000,
+}
+
+var arab_rim = map[int]string{
+	1: "I", 4: "IV", 5: "V", 9: "IX",
+	10: "X", 40: "XL", 50: "L", 90: "XC",
+	100: "C", 400: "CD", 500: "D", 900: "CM",
+	1000: "M",
+}
+
+func rimtoarab(rimn string) (int, error) {
+
+	var result int
+	rimsd := 0
+
+	for i := len(rimn) - 1; i >= 0; i-- {
+		value := rim_arab[string(rimn[i])]
+		if value == 0 {
+			return 0, fmt.Errorf("Неверное римское число: %s", rimn)
+		}
+		if value < rimsd {
+			result -= value
+		} else {
+			result += value
+		}
+
+		result = value
+	}
+	return result, nil
+
+}
+
 func main() {
+
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Println("Проект для Академии")
