@@ -44,6 +44,23 @@ func rimtoarab(rimn string) (int, error) {
 
 }
 
+func arabtorim(arabn int) (string, error) {
+	if arabn <= 0 || arabn > 3999 {
+		return "", fmt.Errorf("Это число нельзя конвертировать в римское: %d", arabn)
+	}
+	var result strings.Builder
+	for arabn > 0 {
+		for arabval, rimsym := range arab_rim {
+			if arabn >= arabval {
+				result.WriteString(rimsym)
+				arabn -= arabval
+				break
+			}
+		}
+	}
+	return result.String(), nil
+}
+
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
