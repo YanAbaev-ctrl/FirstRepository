@@ -32,13 +32,23 @@ func main() {
 		first_num, err := strconv.Atoi(parts[0])
 		if err != nil {
 			fmt.Println("Первое число не было преобразовано:", err)
-			continue
+			break
+		}
+
+		if first_num < 1 || first_num > 10 {
+			fmt.Println("Принимаем только числа от 1 до 10 ключительно!")
+			break
 		}
 
 		second_num, err := strconv.Atoi(parts[2])
 		if err != nil {
 			fmt.Println("Второе число не было преобразовано:", err)
-			continue
+			break
+		}
+
+		if second_num < 1 || second_num > 10 {
+			fmt.Println("Принимаем только числа от 1 до 10 ключительно!")
+			break
 		}
 
 		math_oper := parts[1]
@@ -59,7 +69,7 @@ func main() {
 			answer = first_num / second_num
 		default:
 			fmt.Println("Оператор не понятный:", math_oper)
-			continue
+			os.Exit(1)
 		}
 
 		fmt.Printf("Ответ: %.d\n", answer)
