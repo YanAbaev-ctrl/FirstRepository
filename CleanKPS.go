@@ -57,19 +57,33 @@ func main() {
 		switch math_oper {
 		case "+":
 			answer = first_num + second_num
+
 		case "-":
 			answer = first_num - second_num
+
 		case "*":
 			answer = first_num * second_num
+
 		case "/":
+
 			if second_num == 0 {
-				fmt.Println("Деление на ноль не пройдет!")
+				fmt.Println("Делить на ноль нельзя!")
 				continue
 			}
+
 			answer = first_num / second_num
+
 		default:
 			fmt.Println("Оператор не понятный:", math_oper)
 			os.Exit(1)
+		}
+
+		if answer > 0 {
+			fmt.Println("Результат является положительным числом.")
+			break
+		} else if answer == 0 {
+			fmt.Println(answer)
+			continue
 		}
 
 		fmt.Printf("Ответ: %.d\n", answer)
