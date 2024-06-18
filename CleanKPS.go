@@ -49,7 +49,6 @@ func calculate(enter string) (string, error) {
 
 	first_num, operator, second_num := parts[0], parts[1], parts[2]
 
-	// Определяем тип введенных данных (арабские или римские числа)
 	rimfirstnum := isRomanNumeral(first_num)
 	rimsecondnum := isRomanNumeral(second_num)
 
@@ -57,7 +56,6 @@ func calculate(enter string) (string, error) {
 		return "", fmt.Errorf("нельзя смешивать римские и арабские числа")
 	}
 
-	// Парсим операнды в соответствии с их типом
 	var a, b int
 	var err error
 	if rimfirstnum {
@@ -86,7 +84,6 @@ func calculate(enter string) (string, error) {
 		return "", fmt.Errorf("неизвестная операция")
 	}
 
-	// Возвращаем результат в соответствующем формате
 	if rimfirstnum {
 		if result <= 0 {
 			return "", fmt.Errorf("римские числа не могут быть отрицательными или равными нулю")
