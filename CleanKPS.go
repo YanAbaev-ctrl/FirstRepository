@@ -37,14 +37,14 @@ func main() {
 		return
 	}
 
-	fmt.Println("Результат:", answer)
+	fmt.Println("Ответ:", answer)
 
 }
 
 func calculate(enter string) (string, error) {
 	parts := strings.Fields(enter)
 	if len(parts) != 3 {
-		return "", fmt.Errorf("неправильный формат ввода")
+		return "", fmt.Errorf("Вы не правильно ввели выражение")
 	}
 
 	first_num, operator, second_num := parts[0], parts[1], parts[2]
@@ -53,7 +53,7 @@ func calculate(enter string) (string, error) {
 	rimsecondnum := isRomanNumeral(second_num)
 
 	if rimfirstnum != rimsecondnum {
-		return "", fmt.Errorf("нельзя смешивать римские и арабские числа")
+		return "", fmt.Errorf("Смешивать две системы исчисления не стоит!")
 	}
 
 	var a, b int
@@ -77,16 +77,16 @@ func calculate(enter string) (string, error) {
 		result = a * b
 	case "/":
 		if b == 0 {
-			return "", fmt.Errorf("деление на ноль")
+			return "", fmt.Errorf("На ноль делить нельзя!")
 		}
 		result = a / b
 	default:
-		return "", fmt.Errorf("неизвестная операция")
+		return "", fmt.Errorf("Неизвестное действие")
 	}
 
 	if rimfirstnum {
 		if result <= 0 {
-			return "", fmt.Errorf("римские числа не могут быть отрицательными или равными нулю")
+			return "", fmt.Errorf("Римские числа должны быть только положительными")
 		}
 		return arabtorim[result], nil
 	}
@@ -104,7 +104,7 @@ func parseOperands(first_num, second_num string) (int, int, error) {
 	}
 
 	if a < 1 || a > 10 || b < 1 || b > 10 {
-		return 0, 0, fmt.Errorf("числа должны быть в диапазоне от 1 до 10 включительно")
+		return 0, 0, fmt.Errorf("Не соответствует диапазону [1:10]")
 	}
 
 	return a, b, nil
@@ -113,11 +113,11 @@ func parseOperands(first_num, second_num string) (int, int, error) {
 func parseRomanOperands(first_num, second_num string) (int, int, error) {
 	a, check := rimtoarab[first_num]
 	if !check {
-		return 0, 0, fmt.Errorf("неверное римское число: %s", first_num)
+		return 0, 0, fmt.Errorf("Не правильно набрано римское число: %s", first_num)
 	}
 	b, check := rimtoarab[second_num]
 	if !check {
-		return 0, 0, fmt.Errorf("неверное римское число: %s", second_num)
+		return 0, 0, fmt.Errorf("Не правильно набрано римское число: %s", second_num)
 	}
 
 	return a, b, nil
