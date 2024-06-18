@@ -89,57 +89,55 @@ func main() {
 			break
 		}
 
-		if first_num < 1 || first_num > 10 {
-			fmt.Println("Принимаем только числа от 1 до 10 ключительно!")
-			break
-		}
-
 		second_num, err := strconv.Atoi(parts[2])
 		if err != nil {
 			fmt.Println("Второе число не было преобразовано:", err)
 			break
 		}
 
-		if second_num < 1 || second_num > 10 {
-			fmt.Println("Принимаем только числа от 1 до 10 ключительно!")
-			break
-		}
+		if first_num >= 1 && first_num <= 10 && second_num >= 1 && second_num <= 10 {
 
-		math_oper := parts[1]
+			math_oper := parts[1]
 
-		var answer int
-		switch math_oper {
-		case "+":
-			answer = first_num + second_num
+			var answer int
+			switch math_oper {
+			case "+":
+				answer = first_num + second_num
 
-		case "-":
-			answer = first_num - second_num
+			case "-":
+				answer = first_num - second_num
 
-		case "*":
-			answer = first_num * second_num
+			case "*":
+				answer = first_num * second_num
 
-		case "/":
+			case "/":
 
-			if second_num == 0 {
-				fmt.Println("Делить на ноль нельзя!")
+				if second_num == 0 {
+					fmt.Println("Делить на ноль нельзя!")
+					continue
+				}
+
+				answer = first_num / second_num
+
+			default:
+				fmt.Println("Оператор не понятный:", math_oper)
+				os.Exit(1)
+			}
+
+			if answer > 0 {
+				fmt.Println("Результат является положительным числом.")
+				break
+			} else if answer == 0 {
+				fmt.Println(answer)
 				continue
 			}
 
-			answer = first_num / second_num
+			fmt.Printf("Ответ: %.d\n", answer)
 
-		default:
-			fmt.Println("Оператор не понятный:", math_oper)
-			os.Exit(1)
-		}
-
-		if answer > 0 {
-			fmt.Println("Результат является положительным числом.")
+		} else {
+			fmt.Println("Введенное Вами число не входит в диапазон [1;10]")
 			break
-		} else if answer == 0 {
-			fmt.Println(answer)
-			continue
 		}
 
-		fmt.Printf("Ответ: %.d\n", answer)
 	}
 }
