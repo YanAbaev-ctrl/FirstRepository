@@ -32,6 +32,7 @@ func main() {
 	}
 
 	answer, err := calculate(receiving_values)
+
 	if err != nil {
 		fmt.Println("Ошибка:", err)
 		return
@@ -49,8 +50,8 @@ func calculate(enter string) (string, error) {
 
 	first_num, operator, second_num := parts[0], parts[1], parts[2]
 
-	rimfirstnum := isRomanNumeral(first_num)
-	rimsecondnum := isRomanNumeral(second_num)
+	rimfirstnum := checkrimnumeral(first_num)
+	rimsecondnum := checkrimnumeral(second_num)
 
 	if rimfirstnum != rimsecondnum {
 		return "", fmt.Errorf("Смешивать две системы исчисления не стоит!")
@@ -90,6 +91,12 @@ func calculate(enter string) (string, error) {
 		}
 		return arabtorim[result], nil
 	}
+
+	if result > 0 {
+		fmt.Println("Арабский ответ не может быть положительным")
+		os.Exit(0)
+	}
+
 	return strconv.Itoa(result), nil
 }
 
@@ -123,7 +130,7 @@ func parseRomanOperands(first_num, second_num string) (int, int, error) {
 	return a, b, nil
 }
 
-func isRomanNumeral(enter string) bool {
+func checkrimnumeral(enter string) bool {
 	_, check := rimtoarab[enter]
 	return check
 }
