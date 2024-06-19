@@ -35,7 +35,7 @@ func main() {
 func calculate(enter string) (string, error) {
 	parts := strings.Fields(enter)
 	if len(parts) != 3 {
-		return "", fmt.Errorf("вы неправильно ввели выражение")
+		panic("Вы не правильно ввели выражение!")
 	}
 
 	first_num, operator, second_num := parts[0], parts[1], parts[2]
@@ -44,7 +44,7 @@ func calculate(enter string) (string, error) {
 	rimsecondnum := checkrimnumeral(second_num)
 
 	if rimfirstnum != rimsecondnum {
-		return "", fmt.Errorf("смешивать две системы исчисления не стоит!")
+		panic("Не смешивайте две системы исчисления")
 	}
 
 	var a, b int
@@ -68,16 +68,16 @@ func calculate(enter string) (string, error) {
 		result = a * b
 	case "/":
 		if b == 0 {
-			return "", fmt.Errorf("на ноль делить нельзя!")
+			panic("на ноль делить нельзя!")
 		}
 		result = a / b
 	default:
-		return "", fmt.Errorf("неизвестное действие")
+		panic("не понятный оператор!")
 	}
 
 	if rimfirstnum {
 		if result <= 0 {
-			return "", fmt.Errorf("римские числа должны быть только положительными")
+			panic("римские числа должны быть только положительными")
 		}
 		return toRoman(result), nil
 	}
@@ -96,7 +96,7 @@ func parseOperands(first_num, second_num string) (int, int, error) {
 	}
 
 	if a < 1 || a > 10 || b < 1 || b > 10 {
-		return 0, 0, fmt.Errorf("не соответствует диапазону [1:10]")
+		panic("не соответствует диапазону [1:10]")
 	}
 
 	return a, b, nil
@@ -105,11 +105,11 @@ func parseOperands(first_num, second_num string) (int, int, error) {
 func parseRomanOperands(first_num, second_num string) (int, int, error) {
 	a, check := rimtoarab[first_num]
 	if !check {
-		return 0, 0, fmt.Errorf("неправильно набрано римское число: %s", first_num)
+		panic("неправильно набрано римское число")
 	}
 	b, check := rimtoarab[second_num]
 	if !check {
-		return 0, 0, fmt.Errorf("неправильно набрано римское число: %s", second_num)
+		panic("неправильно набрано римское число")
 	}
 
 	return a, b, nil
