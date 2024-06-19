@@ -13,26 +13,6 @@ var rimtoarab = map[string]int{
 	"VII": 7, "VIII": 8, "IX": 9, "X": 10,
 }
 
-var arabtorim = []string{
-	"", "I", "II", "III", "IV", "V", "VI",
-	"VII", "VIII", "IX", "X", "XI", "XII",
-	"XIII", "XIV", "XV", "XVI", "XVII", "XVIII",
-	"XIX", "XX", "XXI", "XXII", "XXIII", "XXIV",
-	"XXV", "XXVI", "XXVII", "XXVIII", "XXIX", "XXX",
-	"XXXI", "XXXII", "XXXIII", "XXXIV", "XXXV", "XXXVI",
-	"XXXVII", "XXXVIII", "XXXIX", "XL", "XLI", "XLII",
-	"XLIII", "XLIV", "XLV", "XLVI", "XLVII", "XLVIII",
-	"XLIX", "L", "LI", "LII", "LIII", "LIV",
-	"LV", "LVI", "LVII", "LVIII", "LIX", "LX",
-	"LXI", "LXII", "LXIII", "LXIV", "LXV", "LXVI",
-	"LXVII", "LXVIII", "LXIX", "LXX", "LXXI", "LXXII",
-	"LXXIII", "LXXIV", "LXXV", "LXXVI", "LXXVII", "LXXVIII",
-	"LXXIX", "LXXX", "LXXXI", "LXXXII", "LXXXIII", "LXXXIV",
-	"LXXXV", "LXXXVI", "LXXXVII", "LXXXVIII", "LXXXIX", "XC",
-	"XCI", "XCII", "XCIII", "XCIV", "XCV", "XCVI",
-	"XCVII", "XCVIII", "XCIX", "C",
-}
-
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Введите выражение: ")
@@ -45,20 +25,17 @@ func main() {
 	}
 
 	answer, err := calculate(receiving_values)
-
 	if err != nil {
 		fmt.Println("Ошибка:", err)
 		return
 	}
-
 	fmt.Println("Ответ:", answer)
-
 }
 
 func calculate(enter string) (string, error) {
 	parts := strings.Fields(enter)
 	if len(parts) != 3 {
-		return "", fmt.Errorf("Вы не правильно ввели выражение")
+		return "", fmt.Errorf("вы неправильно ввели выражение")
 	}
 
 	first_num, operator, second_num := parts[0], parts[1], parts[2]
@@ -67,7 +44,7 @@ func calculate(enter string) (string, error) {
 	rimsecondnum := checkrimnumeral(second_num)
 
 	if rimfirstnum != rimsecondnum {
-		return "", fmt.Errorf("Смешивать две системы исчисления не стоит!")
+		return "", fmt.Errorf("смешивать две системы исчисления не стоит!")
 	}
 
 	var a, b int
@@ -91,18 +68,18 @@ func calculate(enter string) (string, error) {
 		result = a * b
 	case "/":
 		if b == 0 {
-			return "", fmt.Errorf("На ноль делить нельзя!")
+			return "", fmt.Errorf("на ноль делить нельзя!")
 		}
 		result = a / b
 	default:
-		return "", fmt.Errorf("Неизвестное действие")
+		return "", fmt.Errorf("неизвестное действие")
 	}
 
 	if rimfirstnum {
 		if result <= 0 {
-			return "", fmt.Errorf("Римские числа должны быть только положительными")
+			return "", fmt.Errorf("римские числа должны быть только положительными")
 		}
-		return arabtorim[result], nil
+		return toRoman(result), nil
 	}
 
 	return strconv.Itoa(result), nil
@@ -119,7 +96,7 @@ func parseOperands(first_num, second_num string) (int, int, error) {
 	}
 
 	if a < 1 || a > 10 || b < 1 || b > 10 {
-		return 0, 0, fmt.Errorf("Не соответствует диапазону [1:10]")
+		return 0, 0, fmt.Errorf("не соответствует диапазону [1:10]")
 	}
 
 	return a, b, nil
@@ -128,11 +105,11 @@ func parseOperands(first_num, second_num string) (int, int, error) {
 func parseRomanOperands(first_num, second_num string) (int, int, error) {
 	a, check := rimtoarab[first_num]
 	if !check {
-		return 0, 0, fmt.Errorf("Не правильно набрано римское число: %s", first_num)
+		return 0, 0, fmt.Errorf("неправильно набрано римское число: %s", first_num)
 	}
 	b, check := rimtoarab[second_num]
 	if !check {
-		return 0, 0, fmt.Errorf("Не правильно набрано римское число: %s", second_num)
+		return 0, 0, fmt.Errorf("неправильно набрано римское число: %s", second_num)
 	}
 
 	return a, b, nil
@@ -141,4 +118,17 @@ func parseRomanOperands(first_num, second_num string) (int, int, error) {
 func checkrimnumeral(enter string) bool {
 	_, check := rimtoarab[enter]
 	return check
+}
+
+func toRoman(num int) string {
+	val := []int{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1}
+	syb := []string{"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"}
+	roman := ""
+	for i := 0; num > 0; i++ {
+		for num >= val[i] {
+			num -= val[i]
+			roman += syb[i]
+		}
+	}
+	return roman
 }
