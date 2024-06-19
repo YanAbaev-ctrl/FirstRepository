@@ -92,11 +92,6 @@ func calculate(enter string) (string, error) {
 		return arabtorim[result], nil
 	}
 
-	if result > 0 {
-		fmt.Println("Арабский ответ не может быть положительным")
-		os.Exit(0)
-	}
-
 	return strconv.Itoa(result), nil
 }
 
